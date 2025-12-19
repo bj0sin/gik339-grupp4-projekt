@@ -1,6 +1,34 @@
+ //import {response} from "express";
+
 const url = "http://localhost:3000/movies";
 
+/* const feedbackModal = document.getElementById("feedbackModal");
+const feedbackMessage = document.getElementById("feedbackMessage");
+const feedbackCloseBtn = document.getElementById("feedbackCloseBtn");
+
+feedbackModal.style.display = "none";
+
+function showFeedback(message) {
+  feedbackMessage.textContent = message;
+  feedbackModal.style.display = "flex";   // visa modalen
+}
+
+function hideFeedback() {
+  feedbackModal.style.display = "none";   // göm modalen
+}
+
+
+feedbackCloseBtn.addEventListener("click", hideFeedback) */;
+
+// stäng om man klickar utanför rutan
+//feedbackModal.addEventListener("click", (e) => {
+  //if (e.target === feedbackModal) hideFeedback();
+//});
+
+
+
 window.addEventListener("load",fetchData);
+
 function fetchData(){
     fetch(url)
     .then((result) => result.json())
@@ -13,20 +41,17 @@ function fetchData(){
              <li
                 class="bg-green-200 basis-1/4 text-green-900 p-2 rounded-md
                 border-2 border-green-400 flex flex-col justify-between">
-                <h3> Title:${movies.movieTitle} Längd:${movies.runTime}minuter Utgiven:${movies.movieYear}</h3>
+                <h3> Title: ${movies.movieTitle} Längd: ${movies.runTime} min Utgiven: ${movies.movieYear}</h3>
                 <p>Genre: ${movies.genre}</p>
                 <div>
                     <button
-                        class="rounded-md bg-white/50 p-1 text-sm">
-                
-                    </button>
-                    <button
                         class="border border-green-300 hover:bg-white/100
-                        rounded-md/50 bg-white/50 p-1 text-sm mt-2">
+                        rounded-md/50 bg-white/50 p-1 text-sm mt-2" onclick="setCurrentMovie
+                        (${movies.id})">
                         Ändra
                     </button>
                     <button class="border border-green-300 hover:bg-white/100
-                        rounded-md/50 bg-white/50 p-1 text-sm mt-2">
+                        rounded-md/50 bg-white/50 p-1 text-sm mt-2" onclick="deleteMovie(${movies.id})">
                         Ta bort
                     </button>
 
@@ -45,3 +70,74 @@ function fetchData(){
 
 }
 
+function setCurrentMovie(id){
+    console.log('current', id);
+
+    fetch(`${url}/${id}`)
+    .then(result => result.json())
+    .then(movie => {
+        console.log(movie);
+        userForm.movieTitle.value = movie.movieTitle;
+        userForm.runTime.value = movie.runTime;
+        userForm.movieYear.value = movie.movieYear;
+        userForm.genre.value = movie.genre;
+
+        localStorage.setItem("currentId", movie.id);
+
+    });
+}
+
+function deleteMovie (id) {
+    console.log('delete', id);
+    fetch(`${url}/${id}`, { method: 'DELETE' })
+    .then((result) => {
+        fetchData();
+        /* showFeedback("Filmen togs bort!"); */
+    });
+    
+}
+
+
+const userForm = document.getElementById('userForm');
+
+userForm.addEventListener('submit',handleSubmit);
+
+function handleSubmit(e){
+    e.preventDefault();
+    const serverUserObject = {
+        movieTitle: '',
+        runTime:'',
+        movieYear:'',
+        genre:''
+
+    };
+    serverUserObject.movieTitle = userForm.movieTitle.value;
+    serverUserObject.runTime = userForm.runTime.value;
+    serverUserObject.movieYear = userForm.movieYear.value;
+    serverUserObject.genre = userForm.genre.value;
+
+    const id = localStorage.getItem("currentId");
+    if(id) {
+        serverUserObject.id = id;
+
+    } 
+
+    const request = new Request(url,{
+        method: serverUserObject.id ? "PUT" : "POST",
+        headers:{
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(serverUserObject)
+    });
+    
+    fetch(request).then((response) => {
+        
+        fetchData();
+
+        localStorage.removeItem("currentId");
+        userForm.reset()
+        /* showFeedback("Film tillagd/uppdaterade"); */
+        
+    });
+    
+} 
