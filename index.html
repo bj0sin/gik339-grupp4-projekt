@@ -5,18 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sekuya: ['Sekuya', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
     <link rel="shortcut icon" href="#" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sekuya&display=swap" rel="stylesheet">
     <title>Filmbibliotek</title>
   </head>
-  <body class="min-h-[100vh] bg-gradient-to-b from-slate-800 to-slate-700 text-white">
+  <body class="min-h-[100vh] bg-gradient-to-b from-black to-red-800 text-white">
     <header class="mt-10 text-center">
-      <h1 class="text-3xl">Filmbibliotek</h1>
+      <h1 class="text-4xl text-amber-400 font-sekuya">Filmbibliotek</h1>
     </header>
     <main class="mt-10">
-      <div class="w-[55rem] mx-auto mt-8 bg-white/25 p-3 rounded-lg">
+      <div class="w-[55rem] mx-auto mt-8 bg-black/25 p-3 rounded-lg">
         <form id="userForm">
           <div class="form-control my-4 mx-auto flex w-3/4 items-center">
-            <label for="movieTitle" class="mr-4 text-xl w-40">Film</label>
+            <label for="movieTitle" class="mr-4 text-xl w-40">Filmtitel</label>
             <input class="text-slate-800 p-1 flex-1 rounded-md" type="text" name="movieTitle" />
           </div>
           <div class="form-control my-4 mx-auto flex w-3/4 items-center">
@@ -24,7 +38,7 @@
             <input class="text-slate-800 p-1 flex-1 rounded-md" type="text" name="runTime" />
           </div>
           <div class="form-control my-4 mx-auto flex w-3/4 items-center">
-            <label for="movieYear" class="mr-4 text-xl w-40">År</label>
+            <label for="movieYear" class="mr-4 text-xl w-40">Utgivningsår</label>
             <input class="text-slate-800 p-1 flex-1 rounded-md" type="text" name="movieYear" />
           </div>
           <div class="form-control my-4 mx-auto flex w-3/4 items-center">
@@ -39,13 +53,13 @@
           </div>
           <div class="form-control my-4 mx-auto flex w-3/4 items-center justify-end gap-4">
             <button
-              class="px-4 py-1 bg-slate-200 text-slate-800 rounded-md hover:bg-slate-300"
+              class="px-4 py-1 bg-white/50 text-white rounded-md hover:bg-white/25"
               type="reset"
               name="clearUserForm">
               Rensa
             </button>
             <button
-              class="px-4 py-1 bg-slate-200 text-slate-800 rounded-md hover:bg-slate-300"
+              class="px-4 py-1 bg-white/50 text-white rounded-md hover:bg-white/25"
               type="submit"
               name="submitUserForm">
               Skicka
