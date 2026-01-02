@@ -101,12 +101,15 @@ server.delete("/movies/:id", (req, res) => {
     const id = req.params.id;
     const sql = `DELETE FROM movies WHERE id = ${id}`;
 
-    db.run(sql, (err) => {
+    db.run(sql, function (err) {
         if(err){
             console.log(err);
             res.status(500).send(err);
-        } else {
+        } 
+         if (this.changes ===0){
+            return res.status(404).send("Ingen film hittades")
+         }
             res.send('Filmen borttagen');
-        }
+        
     });
 }) 

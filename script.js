@@ -4,6 +4,8 @@
  
  window.addEventListener("load",fetchData);
  
+
+
  function fetchData(){
      fetch(url)
      .then((result) => result.json())
@@ -62,12 +64,16 @@
  }
  
  function deleteMovie (id) {
+    console.log ("deletemovie körs med id",id);
+    if(!confirm("Är du säker på att du vill ta bort filmen?")) return;
      console.log('delete', id);
      fetch(`${url}/${id}`, { method: 'DELETE' })
-     .then((result) => {
-         fetchData();
-         
+     .then(() => {
+        alert ("Filmen har tagits bort");
+        fetchData();
      });
+         
+     
      
  }
  
@@ -91,10 +97,15 @@
      serverUserObject.genre = userForm.genre.value;
  
      const id = localStorage.getItem("currentId");
+
      if(id) {
+        if(!confirm("Vill du verkligen ändra filmen?")) return;
          serverUserObject.id = id;
  
-     } 
+     }
+     else {
+        if(!confirm("Vill du lägga till filmen?")) return;
+     }
  
      const request = new Request(url,{
          method: serverUserObject.id ? "PUT" : "POST",
@@ -104,7 +115,14 @@
          body: JSON.stringify(serverUserObject)
      });
      
-     fetch(request).then((response) => {
+     fetch(request).then(() => {
+
+        if (id){
+            alert("Filmen har uppdaterats");
+        }
+        else {
+            alert("Filmen har lagts till");
+        }
          
          fetchData();
  
